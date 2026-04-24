@@ -18,28 +18,37 @@
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="interactions.css">
 </head>
 
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
 
-  <!-- Noise overlay for texture -->
+  <!-- Animated grid / noise overlay for texture -->
   <div class="noise" aria-hidden="true"></div>
+
+  <!-- Cinematic gradient mesh behind hero -->
+  <div class="hero-mesh" aria-hidden="true">
+    <span class="mesh-blob mesh-blob--indigo"></span>
+    <span class="mesh-blob mesh-blob--green"></span>
+    <span class="mesh-blob mesh-blob--violet"></span>
+  </div>
 
   <header>
     <div class="header-inner">
-      <a href="index.html" class="brand">
+      <a href="index.html" class="brand" aria-label="João Nicastro Silveira — Home">
         <span class="brand-accent">&lt;</span>JNS<span class="brand-accent"> /&gt;</span>
       </a>
 
-      <button class="nav-toggle" aria-expanded="false" aria-controls="nav">
-        <i class="ph ph-list"></i>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Toggle navigation menu">
+        <i class="ph ph-list" aria-hidden="true"></i>
       </button>
 
-      <nav id="nav">
+      <nav id="nav" aria-label="Primary">
         <ul>
           <li><a href="#about">Welcome</a></li>
           <li><a href="#resume">Resume</a></li>
+          <li><a href="#skills">Skills</a></li>
           <li><a href="#interests">Interests</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#social">Connect</a></li>
@@ -53,18 +62,47 @@
     <!-- ================= HERO / WELCOME ================= -->
     <section id="about" class="hero">
       <div class="hero-intro fade-in">
-        <p class="tag"><i class="ph ph-terminal-window"></i> Computer Science &middot; Software Engineer &middot; Denver, CO</p>
+        <p class="tag"><i class="ph ph-terminal-window" aria-hidden="true"></i> Computer Science &middot; Software Engineer &middot; Denver, CO</p>
+
+        <!-- Faux developer terminal window -->
+        <div class="terminal" role="presentation" aria-hidden="true">
+          <div class="terminal-bar">
+            <span class="terminal-dot terminal-dot--red"></span>
+            <span class="terminal-dot terminal-dot--yellow"></span>
+            <span class="terminal-dot terminal-dot--green"></span>
+            <span class="terminal-title">~/joao — zsh</span>
+          </div>
+          <div class="terminal-body">
+            <p class="terminal-line"><span class="terminal-prompt">jns@denver</span><span class="terminal-sep">:</span><span class="terminal-path">~/portfolio</span><span class="terminal-sep">$</span> whoami</p>
+            <p class="terminal-line terminal-out">cs_student &amp;&amp; software_engineer</p>
+            <p class="terminal-line"><span class="terminal-prompt">jns@denver</span><span class="terminal-sep">:</span><span class="terminal-path">~/portfolio</span><span class="terminal-sep">$</span> cat status.json</p>
+            <p class="terminal-line terminal-out">{ "open_to": "internships", "focus": "accessible web" }</p>
+            <p class="terminal-line"><span class="terminal-prompt">jns@denver</span><span class="terminal-sep">:</span><span class="terminal-path">~/portfolio</span><span class="terminal-sep">$</span> <span class="terminal-cursor"></span></p>
+          </div>
+        </div>
+
         <h1>Hi, I'm <span class="text-gradient">João Nicastro Silveira</span></h1>
         <p class="hero-subtitle">
           Building things that work beautifully — one commit at a time.
         </p>
+
         <div class="hero-actions">
-           <a href="#projects" class="btn">View Projects <i class="ph ph-arrow-right"></i></a>
+           <a href="#projects" class="btn">View Projects <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+           <a href="#resume" class="btn btn-outline">Read Resume <i class="ph ph-file-text" aria-hidden="true"></i></a>
         </div>
+
+        <!-- Quick fact pills -->
+        <ul class="quick-facts" aria-label="Quick facts">
+          <li class="tag-pill quick-fact"><i class="ph ph-map-pin" aria-hidden="true"></i> Based in Denver</li>
+          <li class="tag-pill quick-fact"><i class="ph ph-briefcase" aria-hidden="true"></i> Open to internships</li>
+          <li class="tag-pill quick-fact"><i class="ph ph-graduation-cap" aria-hidden="true"></i> Currently @ CU Boulder</li>
+          <li class="tag-pill quick-fact"><i class="ph ph-calendar-blank" aria-hidden="true"></i> CS '26</li>
+        </ul>
       </div>
 
       <div class="about-grid fade-in">
         <div class="about-photo">
+          <div class="photo-ring" aria-hidden="true"></div>
           <img src="assets/images/me.jpg" alt="Portrait of João Nicastro Silveira">
           <div class="photo-glow" aria-hidden="true"></div>
         </div>
@@ -103,18 +141,38 @@
           </p>
         </div>
       </div>
+
+      <!-- ================= STATS / BY THE NUMBERS ================= -->
+      <aside class="stats-strip fade-in" aria-label="By the numbers">
+        <div class="stat-card">
+          <p class="stat-number" data-count="3" data-suffix="+">3+</p>
+          <p class="stat-label">years coding</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-number" data-count="10" data-suffix="+">10+</p>
+          <p class="stat-label">projects shipped</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-number" data-count="2" data-suffix="">2</p>
+          <p class="stat-label">languages (EN / PT)</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-number" data-count="100" data-suffix="%">100%</p>
+          <p class="stat-label">accessibility-first</p>
+        </div>
+      </aside>
     </section>
 
     <!-- ================= RESUME / CV ================= -->
     <section id="resume" class="fade-in">
-      <h2><i class="ph ph-file-text section-icon"></i> Resume / CV</h2>
+      <h2><i class="ph ph-file-text section-icon" aria-hidden="true"></i> Resume / CV</h2>
       <p class="lead">
         Personal contact details (address, phone) have been omitted for privacy.
       </p>
 
       <div class="resume-card glass-card">
         <div class="resume-info">
-          <i class="ph ph-file-pdf resume-file-icon"></i>
+          <i class="ph ph-file-pdf resume-file-icon" aria-hidden="true"></i>
           <div>
             <h3>João Nicastro Silveira</h3>
             <p>
@@ -125,14 +183,61 @@
           </div>
         </div>
         <a href="assets/docs/resume.pdf" class="btn" target="_blank" rel="noopener">
-          <i class="ph ph-download-simple"></i> Download resume
+          <i class="ph ph-download-simple" aria-hidden="true"></i> Download resume
         </a>
+      </div>
+    </section>
+
+    <!-- ================= SKILLS / TECH STACK ================= -->
+    <section id="skills" class="fade-in">
+      <h2><i class="ph ph-stack section-icon" aria-hidden="true"></i> Skills &amp; toolkit</h2>
+      <p class="lead">The languages, frameworks, and practices I reach for when I build.</p>
+
+      <div class="skills-grid">
+
+        <div class="skill-group glass-card">
+          <h3 class="skill-group-title">
+            <i class="ph ph-code" aria-hidden="true"></i> Languages
+          </h3>
+          <ul class="skill-chips">
+            <li class="skill-chip"><i class="ph ph-file-js" aria-hidden="true"></i> JavaScript / TypeScript</li>
+            <li class="skill-chip"><i class="ph ph-file-py" aria-hidden="true"></i> Python</li>
+            <li class="skill-chip"><i class="ph ph-file-html" aria-hidden="true"></i> HTML</li>
+            <li class="skill-chip"><i class="ph ph-file-css" aria-hidden="true"></i> CSS</li>
+            <li class="skill-chip"><i class="ph ph-coffee" aria-hidden="true"></i> Java</li>
+          </ul>
+        </div>
+
+        <div class="skill-group glass-card">
+          <h3 class="skill-group-title">
+            <i class="ph ph-stack" aria-hidden="true"></i> Frameworks
+          </h3>
+          <ul class="skill-chips">
+            <li class="skill-chip"><i class="ph ph-atom" aria-hidden="true"></i> React</li>
+            <li class="skill-chip"><i class="ph ph-lightning" aria-hidden="true"></i> Vite</li>
+            <li class="skill-chip"><i class="ph ph-flame" aria-hidden="true"></i> Firebase</li>
+            <li class="skill-chip"><i class="ph ph-tree-structure" aria-hidden="true"></i> Node.js</li>
+          </ul>
+        </div>
+
+        <div class="skill-group glass-card">
+          <h3 class="skill-group-title">
+            <i class="ph ph-palette" aria-hidden="true"></i> Practices
+          </h3>
+          <ul class="skill-chips">
+            <li class="skill-chip"><i class="ph ph-universal-access" aria-hidden="true"></i> Accessibility / WCAG</li>
+            <li class="skill-chip"><i class="ph ph-git-branch" aria-hidden="true"></i> Git</li>
+            <li class="skill-chip"><i class="ph ph-devices" aria-hidden="true"></i> Responsive design</li>
+            <li class="skill-chip"><i class="ph ph-magic-wand" aria-hidden="true"></i> UI / UX</li>
+          </ul>
+        </div>
+
       </div>
     </section>
 
     <!-- ================= INTERESTS / EXTRACURRICULARS ================= -->
     <section id="interests" class="fade-in">
-      <h2><i class="ph ph-sparkle section-icon"></i> Interests &amp; extracurriculars</h2>
+      <h2><i class="ph ph-sparkle section-icon" aria-hidden="true"></i> Interests &amp; extracurriculars</h2>
       <p class="lead">The passions and activities that shape who I am outside the classroom.</p>
 
       <div class="card-grid">
@@ -153,31 +258,38 @@
           </div>
         </article>
 
+        <!-- PLACEHOLDER: edit to match your real interests -->
         <article class="glass-card card-hover">
           <div class="card-img-wrap">
             <img src="assets/images/keyboard.png" alt="A mechanical keyboard on a developer desk setup" class="card-img">
           </div>
           <div class="card-body">
-            <h3><!-- TODO: Replace -->[Your interest #2]</h3>
+            <h3>Mechanical keyboards &amp; dev setup</h3>
             <p>
-              <!-- TODO: Write at least 50 words about this interest or extracurricular.
-                   Examples: a sport, club, music, volunteering, gaming, fitness, travel, cooking. -->
-              [Write at least 50 words about this interest or extracurricular activity. What draws
-              you to it? How does it connect to your personal growth or identity?]
+              There's a quiet joy in dialing in a workspace that feels like an extension
+              of how you think. I love tactile mechanical builds — the lubed switches,
+              the satisfying thock, the careful keymap — and I treat my desk as a tool
+              I'm always refining. A great setup isn't about gear for gear's sake; it's
+              about removing friction so flow state shows up more often, and the code
+              that follows is sharper, calmer, and more deliberate.
             </p>
           </div>
         </article>
 
+        <!-- PLACEHOLDER: edit to match your real interests -->
         <article class="glass-card card-hover">
           <div class="card-img-wrap">
             <img src="assets/images/cyber.png" alt="A green and purple abstract cybersecurity dashboard" class="card-img">
           </div>
           <div class="card-body">
-            <h3><!-- TODO: Replace -->[Your interest #3]</h3>
+            <h3>Cybersecurity &amp; ethical hacking</h3>
             <p>
-              <!-- TODO: Write at least 50 words about this interest or extracurricular. -->
-              [Write at least 50 words about this interest or extracurricular activity. What draws
-              you to it? How does it connect to your personal growth or identity?]
+              I've been steadily pulled toward security — following CTF challenges,
+              reading writeups, and learning how defenders think about real systems.
+              What keeps me coming back is the overlap with the rest of my work:
+              defensive security and accessible design both ask the same question —
+              who actually uses this, and how do we protect them? It's a growth area
+              I want to keep deepening as I move further into engineering.
             </p>
           </div>
         </article>
@@ -187,7 +299,7 @@
 
     <!-- ================= ACADEMIC / PROJECTS / WORK ================= -->
     <section id="projects" class="fade-in">
-      <h2><i class="ph ph-code section-icon"></i> Academic projects &amp; work</h2>
+      <h2><i class="ph ph-code section-icon" aria-hidden="true"></i> Academic projects &amp; work</h2>
       <p class="lead">Key projects from my coursework that demonstrate my growth as a developer.</p>
 
       <div class="project-list">
@@ -195,6 +307,7 @@
         <article class="project-row glass-card card-hover">
           <div class="project-img-wrap">
             <img src="assets/images/access.png" alt="Accessible website dashboard mockup" class="card-img">
+            <span class="project-badge project-badge--live"><i class="ph ph-broadcast" aria-hidden="true"></i> Live</span>
           </div>
           <div class="project-body">
             <div class="project-tags">
@@ -212,7 +325,7 @@
               diverse abilities.
             </p>
             <a href="https://joaonicastrosilveira.github.io/ATLS-CSCI-3150/final_project/" class="btn btn-outline" target="_blank" rel="noopener">
-              <i class="ph ph-arrow-square-out"></i> View live site
+              <i class="ph ph-arrow-square-out" aria-hidden="true"></i> View live site
             </a>
           </div>
         </article>
@@ -220,6 +333,7 @@
         <article class="project-row glass-card card-hover">
           <div class="project-img-wrap">
             <img src="assets/images/fruits.jpeg" alt="Colorful illustration of fresh fruits and produce" class="card-img">
+            <span class="project-badge project-badge--code"><i class="ph ph-github-logo" aria-hidden="true"></i> Code</span>
           </div>
           <div class="project-body">
             <div class="project-tags">
@@ -236,7 +350,7 @@
               and configure real hosting infrastructure beyond simple static pages.
             </p>
             <a href="https://github.com/JoaoNicastro/HuckleSite" class="btn btn-outline" target="_blank" rel="noopener">
-              <i class="ph ph-github-logo"></i> View on GitHub
+              <i class="ph ph-github-logo" aria-hidden="true"></i> View on GitHub
             </a>
           </div>
         </article>
@@ -244,6 +358,7 @@
         <article class="project-row glass-card card-hover">
           <div class="project-img-wrap">
             <img src="assets/images/csslab.png" alt="A sleek interface depicting abstract CSS grid representations" class="card-img">
+            <span class="project-badge project-badge--live"><i class="ph ph-broadcast" aria-hidden="true"></i> Live</span>
           </div>
           <div class="project-body">
             <div class="project-tags">
@@ -261,7 +376,7 @@
               techniques intersect with inclusive design.
             </p>
             <a href="https://joaonicastrosilveira.github.io/ATLS-CSCI-3150/lab4/" class="btn btn-outline" target="_blank" rel="noopener">
-              <i class="ph ph-arrow-square-out"></i> View live site
+              <i class="ph ph-arrow-square-out" aria-hidden="true"></i> View live site
             </a>
           </div>
         </article>
@@ -271,45 +386,44 @@
 
     <!-- ================= SOCIAL MEDIA ================= -->
     <section id="social" class="fade-in">
-      <h2><i class="ph ph-share-network section-icon"></i> Connect with me</h2>
+      <h2><i class="ph ph-share-network section-icon" aria-hidden="true"></i> Connect with me</h2>
       <p class="lead">Where I share my work and engage professionally.</p>
 
       <div class="social-grid">
 
-        <a href="#" class="social-link glass-card card-hover" target="_blank" rel="noopener">
-          <!-- TODO: Replace # with your actual LinkedIn URL -->
-          <i class="ph ph-linkedin-logo social-icon"></i>
+        <!-- TODO: replace with your LinkedIn URL -->
+        <a href="#" class="social-link glass-card card-hover" target="_blank" rel="noopener" aria-label="LinkedIn profile (link coming soon)">
+          <i class="ph ph-linkedin-logo social-icon" aria-hidden="true"></i>
           <h3>LinkedIn</h3>
           <p>
             My LinkedIn profile is where I maintain my professional network and share
             career milestones. You'll find my education history, skills endorsements,
             and connections within the tech and design communities.
           </p>
-          <span class="social-arrow"><i class="ph ph-arrow-up-right"></i></span>
+          <span class="social-arrow" aria-hidden="true"><i class="ph ph-arrow-up-right"></i></span>
         </a>
 
-        <a href="https://github.com/JoaoNicastro" class="social-link glass-card card-hover" target="_blank" rel="noopener">
-          <i class="ph ph-github-logo social-icon"></i>
+        <a href="https://github.com/JoaoNicastro" class="social-link glass-card card-hover" target="_blank" rel="noopener" aria-label="GitHub profile">
+          <i class="ph ph-github-logo social-icon" aria-hidden="true"></i>
           <h3>GitHub</h3>
           <p>
             GitHub is where all my code lives. You'll find repositories for class
             projects, personal experiments, and collaborative work. My commit history
             reflects my growth as a developer.
           </p>
-          <span class="social-arrow"><i class="ph ph-arrow-up-right"></i></span>
+          <span class="social-arrow" aria-hidden="true"><i class="ph ph-arrow-up-right"></i></span>
         </a>
 
-        <a href="#" class="social-link glass-card card-hover" target="_blank" rel="noopener">
-          <!-- TODO: Replace with your 3rd social platform URL and icon -->
-          <i class="ph ph-user-circle social-icon"></i>
-          <h3><!-- TODO: Replace -->[Your 3rd platform]</h3>
+        <!-- TODO: replace with your Instagram URL -->
+        <a href="#" class="social-link glass-card card-hover" target="_blank" rel="noopener" aria-label="Instagram profile (link coming soon)">
+          <i class="ph ph-instagram-logo social-icon" aria-hidden="true"></i>
+          <h3>Instagram</h3>
           <p>
-            <!-- TODO: Write at least 25 words explaining how this platform supports
-                 your personal brand and what visitors will find there. -->
-            [Write at least 25 words about how this platform supports your personal brand
-            and what visitors will find there.]
+            Instagram is where I share snapshots from travels, side projects, and the
+            quieter moments of life outside the screen — a softer view of the person
+            behind the code.
           </p>
-          <span class="social-arrow"><i class="ph ph-arrow-up-right"></i></span>
+          <span class="social-arrow" aria-hidden="true"><i class="ph ph-arrow-up-right"></i></span>
         </a>
 
       </div>
@@ -320,66 +434,35 @@
   <footer>
     <div class="footer-inner">
       <p class="footer-brand"><span class="brand-accent">&lt;</span>JNS<span class="brand-accent"> /&gt;</span></p>
+
+      <ul class="footer-socials" aria-label="Social links">
+        <li>
+          <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <i class="ph ph-linkedin-logo" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/JoaoNicastro" target="_blank" rel="noopener" aria-label="GitHub">
+            <i class="ph ph-github-logo" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="mailto:jnjojonic@gmail.com" aria-label="Email João">
+            <i class="ph ph-envelope-simple" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+
       <p>&copy; <span id="year"></span> João Nicastro Silveira</p>
       <p class="footer-note">Built for CSCI Professional Development</p>
+
+      <a href="#main" class="back-to-top">
+        <i class="ph ph-arrow-up" aria-hidden="true"></i> Back to top
+      </a>
     </div>
   </footer>
 
-  <script>
-    // Dynamic year
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // Mobile nav toggle
-    const btn = document.querySelector('.nav-toggle');
-    const nav = document.querySelector('#nav');
-    btn.addEventListener('click', () => {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', !expanded);
-      nav.classList.toggle('open');
-    });
-
-    // Smooth scrolling for nav links + close mobile nav
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-      link.addEventListener('click', e => {
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth' });
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-        }
-      });
-    });
-
-    // Scroll-driven fade-in
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.08 });
-
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-    // Active nav highlight on scroll
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('nav a');
-
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(section => {
-        const top = section.offsetTop - 120;
-        if (scrollY >= top) current = section.getAttribute('id');
-      });
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) {
-          link.classList.add('active');
-        }
-      });
-    });
-  </script>
+  <script src="script.js" defer></script>
 
 </body>
 </html>
