@@ -1,385 +1,1110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>João Nicastro Silveira — Developer Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Digital portfolio of João Nicastro Silveira — Computer Science student, software engineer, and accessible web developer based in Denver.">
-  <meta property="og:title" content="João Nicastro Silveira — Developer Portfolio">
-  <meta property="og:description" content="Computer Science student and software engineer. Explore my projects, resume, and professional journey.">
-  <meta property="og:type" content="website">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>João Nicastro Silveira — Full-Stack Developer</title>
+<meta name="description" content="João Nicastro Silveira — full-stack developer in Denver. An interactive constellation of projects." />
 
-  <!-- Fonts: Space Grotesk (headers) + Inter (body) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B0D10'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='monospace' font-size='16' font-weight='700' fill='%234AF59B'%3EJ%3C/text%3E%3C/svg%3E" />
 
-  <!-- Phosphor Icons -->
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css">
+<style>
+:root {
+  --bg:        #07080B;
+  --bg-2:      #0C0E13;
+  --surface:   #14171C;
+  --hair:      #262B33;
+  --fg:        #E8EAED;
+  --fg-dim:    #9099A4;
+  --fg-faint:  #5C6370;
+  --accent:    #4AF59B;
+  --accent-2:  #6FB7FF;
+  --accent-3:  #F2A65A;
+  --accent-4:  #FF7AC6;
+
+  --ui:    'Geist', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --mono:  'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --serif: 'Instrument Serif', Georgia, serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--fg); }
+body {
+  font-family: var(--ui); font-size: 16px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+/* ============================================================
+   STARFIELD (fixed background)
+   ============================================================ */
+.starfield {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(74,245,155,0.05), transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(111,183,255,0.04), transparent 50%),
+    var(--bg);
+  pointer-events: none;
+}
+.starfield canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  padding: 16px clamp(20px, 4vw, 40px);
+  display: flex; justify-content: space-between; align-items: center;
+  background: linear-gradient(to bottom, rgba(7,8,11,0.85), rgba(7,8,11,0));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: 13px; font-weight: 600;
+}
+.brand__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74,245,155,0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(74,245,155,0); }
+}
+.nav__path { color: var(--fg-faint); }
+.nav__path b { color: var(--accent); font-weight: 500; }
+
+.nav__tools { display: flex; gap: 4px; align-items: center; }
+.nav__chip {
+  font-family: var(--mono); font-size: 11px;
+  padding: 6px 10px; color: var(--fg-dim);
+  border: 1px solid var(--hair); border-radius: 4px;
+  transition: all 120ms;
+}
+.nav__chip:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative; z-index: 2;
+  min-height: 100vh;
+  display: grid; place-items: center;
+  padding: 120px 24px 60px;
+}
+.hero__inner { max-width: 900px; text-align: center; position: relative; }
+.hero__eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 12px; color: var(--fg-dim);
+  padding: 6px 14px; border: 1px solid var(--hair); border-radius: 100px;
+  background: rgba(20,23,28,0.6);
+  backdrop-filter: blur(6px);
+  margin-bottom: 28px;
+}
+.hero__eyebrow .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.hero__h1 {
+  font-family: var(--ui); font-weight: 500;
+  font-size: clamp(40px, 7vw, 80px);
+  line-height: 1.1; letter-spacing: -0.025em;
+  margin-bottom: 24px;
+}
+.hero__h1 .word {
+  display: inline-block;
+  opacity: 0; transform: translateY(20px);
+  animation: wordIn 700ms cubic-bezier(.2,.7,.2,1) forwards;
+}
+.hero__h1 .word.line-break { display: block; height: 0; width: 0; }
+@keyframes wordIn { to { opacity: 1; transform: none; } }
+.hero__h1 .accent {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  color: var(--accent);
+  position: relative;
+}
+.hero__sub {
+  font-size: clamp(16px, 1.6vw, 19px);
+  color: var(--fg-dim); max-width: 60ch; margin: 0 auto 36px;
+  opacity: 0; animation: wordIn 700ms cubic-bezier(.2,.7,.2,1) 0.6s forwards;
+}
+.hero__cta {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  opacity: 0; animation: wordIn 700ms cubic-bezier(.2,.7,.2,1) 0.8s forwards;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 22px;
+  border: 1px solid var(--hair); border-radius: 8px;
+  background: rgba(20,23,28,0.6);
+  backdrop-filter: blur(6px);
+  font-size: 14px; font-weight: 500; color: var(--fg);
+  transition: all 160ms;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+.btn--solid { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.btn--solid:hover { color: var(--bg); filter: brightness(1.1); }
+.btn .arrow { transition: transform 160ms; }
+.btn:hover .arrow { transform: translateX(3px); }
+
+.hero__scroll {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 11px; color: var(--fg-faint);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: wordIn 700ms 1.2s forwards;
+}
+.hero__scroll .line {
+  width: 1px; height: 36px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollLine 2.4s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%, 100% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  50% { transform: scaleY(0.3); transform-origin: bottom; opacity: 0.4; }
+}
+
+/* ============================================================
+   CONSTELLATION (Projects)
+   ============================================================ */
+.constellation {
+  position: relative; z-index: 2;
+  min-height: 200vh;
+  padding: 80px 0;
+}
+.constellation__intro {
+  position: sticky; top: 80px;
+  text-align: center; padding: 0 24px;
+  margin-bottom: 60px;
+}
+.constellation__label {
+  font-family: var(--mono); font-size: 11px; color: var(--accent);
+  letter-spacing: 0.2em; margin-bottom: 12px;
+}
+.constellation__h {
+  font-family: var(--ui); font-weight: 500;
+  font-size: clamp(28px, 4vw, 44px);
+  letter-spacing: -0.02em; line-height: 1.15;
+  max-width: 24ch; margin: 0 auto;
+}
+.constellation__h em {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  color: var(--accent);
+}
+.constellation__hint {
+  font-family: var(--mono); font-size: 12px; color: var(--fg-faint);
+  margin-top: 16px;
+}
+.constellation__hint kbd {
+  font-family: var(--mono); font-size: 10px;
+  padding: 2px 6px; border: 1px solid var(--hair); border-radius: 3px;
+  color: var(--fg-dim); background: var(--surface);
+}
+
+.stage {
+  position: relative;
+  width: 100%; max-width: 1200px;
+  margin: 0 auto;
+  height: 80vh; min-height: 600px;
+  /* use vmin for safer aspect */
+}
+.stage__inner {
+  position: absolute; inset: 0;
+}
+/* SVG lines drawn between project nodes */
+.stage__lines {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+.stage__lines line {
+  stroke: rgba(74,245,155,0.15);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  animation: dash 30s linear infinite;
+}
+@keyframes dash { to { stroke-dashoffset: -200; } }
+
+.node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: transform 240ms cubic-bezier(.2,.7,.2,1);
+}
+.node:hover, .node:focus-visible { transform: translate(-50%, -50%) scale(1.05); z-index: 10; }
+.node__core {
+  position: relative;
+  width: 84px; height: 84px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, rgba(74,245,155,0.25), rgba(20,23,28,0.95) 70%);
+  border: 1px solid var(--accent);
+  box-shadow:
+    0 0 0 4px rgba(74,245,155,0.08),
+    0 0 30px rgba(74,245,155,0.25),
+    inset 0 0 20px rgba(74,245,155,0.1);
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+  color: var(--accent); letter-spacing: 0.08em;
+  animation: nodeFloat 6s ease-in-out infinite;
+}
+.node:nth-child(2) .node__core { animation-delay: -1s; }
+.node:nth-child(3) .node__core { animation-delay: -2s; }
+.node:nth-child(4) .node__core { animation-delay: -3s; }
+.node:nth-child(5) .node__core { animation-delay: -4s; }
+.node:nth-child(6) .node__core { animation-delay: -5s; }
+@keyframes nodeFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+/* color variations */
+.node--blue   .node__core { border-color: var(--accent-2); color: var(--accent-2); background: radial-gradient(circle at 35% 30%, rgba(111,183,255,0.25), rgba(20,23,28,0.95) 70%); box-shadow: 0 0 0 4px rgba(111,183,255,0.08), 0 0 30px rgba(111,183,255,0.25); }
+.node--orange .node__core { border-color: var(--accent-3); color: var(--accent-3); background: radial-gradient(circle at 35% 30%, rgba(242,166,90,0.25), rgba(20,23,28,0.95) 70%); box-shadow: 0 0 0 4px rgba(242,166,90,0.08), 0 0 30px rgba(242,166,90,0.25); }
+.node--pink   .node__core { border-color: var(--accent-4); color: var(--accent-4); background: radial-gradient(circle at 35% 30%, rgba(255,122,198,0.25), rgba(20,23,28,0.95) 70%); box-shadow: 0 0 0 4px rgba(255,122,198,0.08), 0 0 30px rgba(255,122,198,0.25); }
+
+.node__ring {
+  position: absolute; inset: -10px;
+  border: 1px dashed currentColor; border-radius: 50%;
+  opacity: 0.3;
+  animation: ringSpin 20s linear infinite;
+}
+@keyframes ringSpin { to { transform: rotate(360deg); } }
+
+.node__label {
+  position: absolute; top: calc(100% + 10px); left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--mono); font-size: 11px; color: var(--fg-dim);
+  pointer-events: none;
+}
+.node__label .yr { color: var(--fg-faint); margin-left: 6px; }
+.node:hover .node__label { color: var(--fg); }
+
+/* discovered counter */
+.discovered {
+  position: fixed; bottom: 24px; right: 24px; z-index: 30;
+  background: rgba(20,23,28,0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--hair); border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--mono); font-size: 11px; color: var(--fg-dim);
+  display: flex; align-items: center; gap: 10px;
+  transition: all 200ms;
+}
+.discovered.is-complete {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 24px rgba(74,245,155,0.25);
+}
+.discovered__bar {
+  width: 80px; height: 4px;
+  background: var(--hair); border-radius: 2px;
+  overflow: hidden;
+}
+.discovered__fill {
+  height: 100%; width: 0%;
+  background: var(--accent);
+  transition: width 400ms cubic-bezier(.2,.7,.2,1);
+}
+
+/* ============================================================
+   PROJECT DETAIL MODAL
+   ============================================================ */
+.modal {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(7,8,11,0.85);
+  backdrop-filter: blur(8px);
+  display: grid; place-items: center;
+  padding: 24px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 220ms ease;
+}
+.modal.is-open { opacity: 1; pointer-events: auto; }
+.modal__panel {
+  width: min(640px, 100%);
+  max-height: 85vh; overflow: auto;
+  background: var(--bg-2);
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  transform: scale(0.96) translateY(10px);
+  transition: transform 280ms cubic-bezier(.2,.7,.2,1);
+}
+.modal.is-open .modal__panel { transform: none; }
+
+.modal__hero {
+  position: relative;
+  height: 180px;
+  background:
+    linear-gradient(135deg, rgba(74,245,155,0.18), transparent 60%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0 6px, transparent 6px 12px),
+    var(--surface);
+  border-bottom: 1px solid var(--hair);
+  display: grid; place-items: center;
+  overflow: hidden;
+}
+.modal__hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 30%, var(--bg-2) 80%);
+}
+.modal__hero .glyph {
+  position: relative;
+  font-family: var(--mono); font-size: 64px; font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.04em;
+  text-shadow: 0 0 40px rgba(74,245,155,0.4);
+}
+.modal__close {
+  position: absolute; top: 14px; right: 14px;
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  border: 1px solid var(--hair); border-radius: 6px;
+  color: var(--fg-dim);
+  background: rgba(0,0,0,0.4);
+  z-index: 2;
+}
+.modal__close:hover { color: var(--accent); border-color: var(--accent); }
+
+.modal__body { padding: 28px 32px 32px; }
+.modal__head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.modal__name { font-size: 26px; font-weight: 500; letter-spacing: -0.01em; }
+.modal__role {
+  font-family: var(--mono); font-size: 11px; color: var(--fg-faint);
+  padding: 3px 10px; border: 1px solid var(--hair); border-radius: 100px;
+}
+.modal__year { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 6px; }
+.modal__tag {
+  font-family: var(--serif); font-style: italic; font-size: 19px;
+  color: var(--fg-dim); margin-bottom: 18px;
+}
+.modal__body p {
+  color: var(--fg-dim); font-size: 15px; line-height: 1.65;
+  margin-bottom: 16px;
+}
+.modal__stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+.tag {
+  font-family: var(--mono); font-size: 11px;
+  padding: 3px 9px; border: 1px solid var(--hair); border-radius: 4px;
+  color: var(--fg-dim);
+}
+.modal__actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ============================================================
+   ABOUT — scroll-reveal text mosaic
+   ============================================================ */
+.about {
+  position: relative; z-index: 2;
+  padding: 120px 24px;
+  max-width: 900px; margin: 0 auto;
+}
+.about__h {
+  font-family: var(--ui); font-weight: 500;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.15; letter-spacing: -0.02em;
+  margin-bottom: 48px;
+  max-width: 18ch;
+}
+.about__h em {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  color: var(--accent);
+}
+.about__h .word {
+  display: inline-block;
+  opacity: 0; transform: translateY(16px) rotate(2deg);
+  transition: opacity 600ms cubic-bezier(.2,.7,.2,1), transform 600ms cubic-bezier(.2,.7,.2,1);
+  transition-delay: calc(var(--i) * 60ms);
+}
+.about.is-in .about__h .word { opacity: 1; transform: none; }
+
+.about__grid {
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 50px; align-items: start;
+}
+.about__body p {
+  color: var(--fg-dim); font-size: 16px; line-height: 1.7;
+  margin-bottom: 14px; max-width: 56ch;
+  opacity: 0; transform: translateY(12px);
+  transition: all 600ms cubic-bezier(.2,.7,.2,1);
+}
+.about__body p:nth-child(1) { transition-delay: 0.1s; }
+.about__body p:nth-child(2) { transition-delay: 0.2s; }
+.about__body p:nth-child(3) { transition-delay: 0.3s; }
+.about.is-in .about__body p { opacity: 1; transform: none; }
+.about__body p b { color: var(--fg); font-weight: 500; }
+
+.specs {
+  border: 1px solid var(--hair); border-radius: 12px;
+  background: rgba(20,23,28,0.5);
+  backdrop-filter: blur(6px);
+  overflow: hidden;
+  font-family: var(--mono); font-size: 13px;
+  opacity: 0; transform: translateY(12px);
+  transition: all 600ms cubic-bezier(.2,.7,.2,1) 0.4s;
+}
+.about.is-in .specs { opacity: 1; transform: none; }
+.spec {
+  display: grid; grid-template-columns: 100px 1fr;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--hair);
+}
+.spec:last-child { border-bottom: 0; }
+.spec .k { color: var(--fg-faint); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding-top: 2px; }
+.spec .v { color: var(--fg); }
+.spec .v.status { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); }
+.spec .v.status .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 6px currentColor; }
+
+@media (max-width: 720px) {
+  .about__grid { grid-template-columns: 1fr; gap: 30px; }
+}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact {
+  position: relative; z-index: 2;
+  padding: 120px 24px;
+  max-width: 900px; margin: 0 auto;
+  text-align: center;
+}
+.contact__h {
+  font-family: var(--ui); font-weight: 500;
+  font-size: clamp(34px, 6vw, 64px);
+  line-height: 1.15; letter-spacing: -0.025em;
+  margin-bottom: 24px;
+}
+.contact__h em {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  color: var(--accent);
+}
+.contact__sub {
+  color: var(--fg-dim); font-size: 17px; line-height: 1.6;
+  max-width: 48ch; margin: 0 auto 36px;
+}
+.contact__email {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 18px 26px;
+  border: 1px solid var(--accent); border-radius: 10px;
+  background: rgba(74,245,155,0.08);
+  font-family: var(--mono); font-size: 16px;
+  color: var(--accent);
+  transition: all 200ms;
+}
+.contact__email:hover {
+  background: var(--accent); color: var(--bg);
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(74,245,155,0.25);
+}
+.contact__email .arrow { transition: transform 200ms; }
+.contact__email:hover .arrow { transform: translate(3px, -3px); }
+
+.contact__links {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  margin-top: 28px;
+}
+.contact__link {
+  font-family: var(--mono); font-size: 12px; color: var(--fg-dim);
+  padding: 8px 14px; border: 1px solid var(--hair); border-radius: 100px;
+  transition: all 160ms;
+}
+.contact__link:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  position: relative; z-index: 2;
+  border-top: 1px solid var(--hair);
+  padding: 24px;
+  text-align: center;
+  font-family: var(--mono); font-size: 11px; color: var(--fg-faint);
+}
+.footer .egg-hint { color: var(--accent); cursor: help; }
+
+/* ============================================================
+   EASTER EGG TOAST
+   ============================================================ */
+.toast {
+  position: fixed; left: 50%; top: 24px;
+  transform: translateX(-50%) translateY(-30px);
+  background: var(--bg-2);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 14px 22px;
+  font-family: var(--mono); font-size: 13px; color: var(--accent);
+  z-index: 200;
+  opacity: 0; pointer-events: none;
+  box-shadow: 0 0 30px rgba(74,245,155,0.3);
+  transition: all 360ms cubic-bezier(.2,.7,.2,1);
+}
+.toast.is-show {
+  opacity: 1; transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+@media (max-width: 720px) {
+  .stage { height: auto; min-height: 0; padding: 20px; display: flex; flex-direction: column; gap: 24px; }
+  .node { position: relative; transform: none; }
+  .node:hover { transform: scale(1.02); }
+  .node__core { width: 64px; height: 64px; font-size: 10px; margin: 0 auto; }
+  .node__label { position: relative; top: 8px; }
+  .stage__lines { display: none; }
+  .discovered { left: 12px; right: 12px; bottom: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+  }
+  .hero__h1 .word, .hero__sub, .hero__cta, .hero__scroll,
+  .about__h .word, .about__body p, .specs {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+</style>
 </head>
-
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
 
-  <!-- Noise overlay for texture -->
-  <div class="noise" aria-hidden="true"></div>
+<!-- Fixed starfield background -->
+<div class="starfield"><canvas id="stars"></canvas></div>
 
-  <header>
-    <div class="header-inner">
-      <a href="index.html" class="brand">
-        <span class="brand-accent">&lt;</span>JNS<span class="brand-accent"> /&gt;</span>
-      </a>
+<!-- ============================================================ NAV ============================================================ -->
+<nav class="nav">
+  <a href="#top" class="brand">
+    <span class="brand__dot" aria-hidden="true"></span>
+    <span class="nav__path">~ / <b>joao</b></span>
+  </a>
+  <div class="nav__tools">
+    <button class="nav__chip" id="langBtn" aria-label="Switch language">EN</button>
+    <a class="nav__chip" href="mailto:jnjojonic@gmail.com">contact ↗</a>
+  </div>
+</nav>
 
-      <button class="nav-toggle" aria-expanded="false" aria-controls="nav">
-        <i class="ph ph-list"></i>
-      </button>
-
-      <nav id="nav">
-        <ul>
-          <li><a href="#about">Welcome</a></li>
-          <li><a href="#resume">Resume</a></li>
-          <li><a href="#interests">Interests</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#social">Connect</a></li>
-        </ul>
-      </nav>
+<!-- ============================================================ HERO ============================================================ -->
+<section id="top" class="hero">
+  <div class="hero__inner">
+    <div class="hero__eyebrow"><span class="dot"></span><span data-i18n="hero.eyebrow">Available for contract work · Q2 2026</span></div>
+    <h1 class="hero__h1" id="heroH1"></h1>
+    <p class="hero__sub" data-i18n="hero.sub">Full-stack developer in Denver. I build accessible, design-forward web apps with React, TypeScript, Java, and Python.</p>
+    <div class="hero__cta">
+      <a class="btn btn--solid" href="#projects"><span data-i18n="hero.cta1">Explore projects</span><span class="arrow">↓</span></a>
+      <a class="btn" href="#contact"><span data-i18n="hero.cta2">Get in touch</span><span class="arrow">→</span></a>
     </div>
-  </header>
+  </div>
+  <div class="hero__scroll">
+    <span data-i18n="hero.scroll">scroll</span>
+    <span class="line"></span>
+  </div>
+</section>
 
-  <main id="main">
+<!-- ============================================================ CONSTELLATION ============================================================ -->
+<section id="projects" class="constellation">
+  <div class="constellation__intro">
+    <div class="constellation__label" data-i18n="const.label">// 6 PROJECTS · CLICK TO EXPLORE</div>
+    <h2 class="constellation__h">
+      <span data-i18n="const.h1">Each project is a </span><em data-i18n="const.h2">node</em><span data-i18n="const.h3"> in the constellation.</span>
+    </h2>
+    <div class="constellation__hint" data-i18n="const.hint">Hover · click · drag the canvas to pan</div>
+  </div>
 
-    <!-- ================= HERO / WELCOME ================= -->
-    <section id="about" class="hero">
-      <div class="hero-intro fade-in">
-        <p class="tag"><i class="ph ph-terminal-window"></i> Computer Science &middot; Software Engineer &middot; Denver, CO</p>
-        <h1>Hi, I'm <span class="text-gradient">João Nicastro Silveira</span></h1>
-        <p class="hero-subtitle">
-          Building things that work beautifully — one commit at a time.
-        </p>
-        <div class="hero-actions">
-           <a href="#projects" class="btn">View Projects <i class="ph ph-arrow-right"></i></a>
-        </div>
-      </div>
+  <div class="stage" id="stage">
+    <svg class="stage__lines" id="stageLines" aria-hidden="true"></svg>
+    <div class="stage__inner" id="stageInner"></div>
+  </div>
+</section>
 
-      <div class="about-grid fade-in">
-        <div class="about-photo">
-          <img src="assets/images/me.jpg" alt="Portrait of João Nicastro Silveira">
-          <div class="photo-glow" aria-hidden="true"></div>
-        </div>
-
-        <div class="about-text">
-          <h2>About me</h2>
-          <p>
-            I'm a computer science student with a passion for building things that work
-            beautifully and thinking through problems from every angle. Whether I'm writing
-            code, studying poker strategy, or diving into a new subject, I bring the same
-            curiosity and persistence to everything I do.
-          </p>
-          <p>
-            What makes me unique is the way I blend analytical thinking with creative
-            problem-solving. I discovered early on that programming is a lot like poker: both
-            require patience, pattern recognition, and the ability to make good decisions
-            with incomplete information. That mindset has shaped how I approach software
-            development — I care about structure, long-term patterns, and building things
-            that are both functional and elegant.
-          </p>
-          <p>
-            This semester has been especially transformative. Through my coursework in
-            accessible web design, I've learned to write intentional, semantic HTML and
-            to think deeply about how design choices affect real people. Features like skip
-            links, proper heading hierarchies, and ARIA landmarks aren't just technical
-            requirements — they're a way of respecting every user who interacts with your
-            work. I'm proud of how much my UI/UX instincts have grown: cleaner layouts,
-            smarter defaults, and less friction everywhere.
-          </p>
-          <p>
-            This portfolio gives you a window into who I am — as a student, a developer,
-            and a person. You'll find my resume, highlights from academic projects and
-            coursework, a look at the interests and activities that shape my perspective,
-            and links to my professional profiles online. I hope it reflects the care and
-            intentionality I bring to all my work. Thank you for visiting.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= RESUME / CV ================= -->
-    <section id="resume" class="fade-in">
-      <h2><i class="ph ph-file-text section-icon"></i> Resume / CV</h2>
-      <p class="lead">
-        Personal contact details (address, phone) have been omitted for privacy.
-      </p>
-
-      <div class="resume-card glass-card">
-        <div class="resume-info">
-          <i class="ph ph-file-pdf resume-file-icon"></i>
-          <div>
-            <h3>João Nicastro Silveira</h3>
-            <p>
-              Education, technical skills, and relevant experience. Currently pursuing
-              a degree in Computer Science with hands-on experience in web development,
-              accessible design, and full-stack applications.
-            </p>
-          </div>
-        </div>
-        <a href="assets/docs/resume.pdf" class="btn" target="_blank" rel="noopener">
-          <i class="ph ph-download-simple"></i> Download resume
-        </a>
-      </div>
-    </section>
-
-    <!-- ================= INTERESTS / EXTRACURRICULARS ================= -->
-    <section id="interests" class="fade-in">
-      <h2><i class="ph ph-sparkle section-icon"></i> Interests &amp; extracurriculars</h2>
-      <p class="lead">The passions and activities that shape who I am outside the classroom.</p>
-
-      <div class="card-grid">
-
-        <article class="glass-card card-hover">
-          <div class="card-img-wrap">
-            <img src="assets/images/poker.png" alt="A cinematic view of casino chips on a poker table" class="card-img">
-          </div>
-          <div class="card-body">
-            <h3>Poker strategy &amp; competitive play</h3>
-            <p>
-              Poker has been one of my longest-running passions. I'm drawn to the deep
-              strategy involved — the reads, the math, the patience, and the way every
-              single decision compounds over time. Studying poker has sharpened my
-              analytical thinking and taught me how to stay disciplined under pressure,
-              skills that translate directly into my academic and professional life.
-            </p>
-          </div>
-        </article>
-
-        <article class="glass-card card-hover">
-          <div class="card-img-wrap">
-            <img src="assets/images/keyboard.png" alt="A mechanical keyboard on a developer desk setup" class="card-img">
-          </div>
-          <div class="card-body">
-            <h3><!-- TODO: Replace -->[Your interest #2]</h3>
-            <p>
-              <!-- TODO: Write at least 50 words about this interest or extracurricular.
-                   Examples: a sport, club, music, volunteering, gaming, fitness, travel, cooking. -->
-              [Write at least 50 words about this interest or extracurricular activity. What draws
-              you to it? How does it connect to your personal growth or identity?]
-            </p>
-          </div>
-        </article>
-
-        <article class="glass-card card-hover">
-          <div class="card-img-wrap">
-            <img src="assets/images/cyber.png" alt="A green and purple abstract cybersecurity dashboard" class="card-img">
-          </div>
-          <div class="card-body">
-            <h3><!-- TODO: Replace -->[Your interest #3]</h3>
-            <p>
-              <!-- TODO: Write at least 50 words about this interest or extracurricular. -->
-              [Write at least 50 words about this interest or extracurricular activity. What draws
-              you to it? How does it connect to your personal growth or identity?]
-            </p>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- ================= ACADEMIC / PROJECTS / WORK ================= -->
-    <section id="projects" class="fade-in">
-      <h2><i class="ph ph-code section-icon"></i> Academic projects &amp; work</h2>
-      <p class="lead">Key projects from my coursework that demonstrate my growth as a developer.</p>
-
-      <div class="project-list">
-
-        <article class="project-row glass-card card-hover">
-          <div class="project-img-wrap">
-            <img src="assets/images/access.png" alt="Accessible website dashboard mockup" class="card-img">
-          </div>
-          <div class="project-body">
-            <div class="project-tags">
-              <span class="tag-pill">HTML</span>
-              <span class="tag-pill">CSS</span>
-              <span class="tag-pill">Accessibility</span>
-            </div>
-            <h3>Universal Design Playground</h3>
-            <p>
-              A multi-page educational website built as my final project for ATLS/CSCI 3150.
-              The site explores the principles of universal design and demonstrates
-              fully accessible HTML and CSS — including semantic structure, ARIA landmarks,
-              skip links, keyboard navigation, and responsive layouts. This project
-              solidified my understanding of how design choices impact real users with
-              diverse abilities.
-            </p>
-            <a href="https://joaonicastrosilveira.github.io/ATLS-CSCI-3150/final_project/" class="btn btn-outline" target="_blank" rel="noopener">
-              <i class="ph ph-arrow-square-out"></i> View live site
-            </a>
-          </div>
-        </article>
-
-        <article class="project-row glass-card card-hover">
-          <div class="project-img-wrap">
-            <img src="assets/images/fruits.jpeg" alt="Colorful illustration of fresh fruits and produce" class="card-img">
-          </div>
-          <div class="project-body">
-            <div class="project-tags">
-              <span class="tag-pill">React</span>
-              <span class="tag-pill">TypeScript</span>
-              <span class="tag-pill">Firebase</span>
-            </div>
-            <h3>HuckleSite — full-stack web app</h3>
-            <p>
-              A React + TypeScript application built with Vite and deployed on Firebase.
-              HuckleSite is a produce delivery concept that showcases component-based
-              architecture, modern frontend tooling, and cloud deployment. Working on
-              this project taught me how to manage state, build reusable components,
-              and configure real hosting infrastructure beyond simple static pages.
-            </p>
-            <a href="https://github.com/JoaoNicastro/HuckleSite" class="btn btn-outline" target="_blank" rel="noopener">
-              <i class="ph ph-github-logo"></i> View on GitHub
-            </a>
-          </div>
-        </article>
-
-        <article class="project-row glass-card card-hover">
-          <div class="project-img-wrap">
-            <img src="assets/images/csslab.png" alt="A sleek interface depicting abstract CSS grid representations" class="card-img">
-          </div>
-          <div class="project-body">
-            <div class="project-tags">
-              <span class="tag-pill">CSS Grid</span>
-              <span class="tag-pill">Flexbox</span>
-              <span class="tag-pill">A11y</span>
-            </div>
-            <h3>Accessible CSS layout lab</h3>
-            <p>
-              A hands-on lab project exploring CSS Grid and Flexbox to create
-              multicolumn layouts with fully accessible navigation. This exercise
-              focused on building responsive designs that maintain usability across
-              screen sizes while preserving correct reading order and keyboard
-              accessibility. It deepened my practical understanding of how layout
-              techniques intersect with inclusive design.
-            </p>
-            <a href="https://joaonicastrosilveira.github.io/ATLS-CSCI-3150/lab4/" class="btn btn-outline" target="_blank" rel="noopener">
-              <i class="ph ph-arrow-square-out"></i> View live site
-            </a>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- ================= SOCIAL MEDIA ================= -->
-    <section id="social" class="fade-in">
-      <h2><i class="ph ph-share-network section-icon"></i> Connect with me</h2>
-      <p class="lead">Where I share my work and engage professionally.</p>
-
-      <div class="social-grid">
-
-        <a href="#" class="social-link glass-card card-hover" target="_blank" rel="noopener">
-          <!-- TODO: Replace # with your actual LinkedIn URL -->
-          <i class="ph ph-linkedin-logo social-icon"></i>
-          <h3>LinkedIn</h3>
-          <p>
-            My LinkedIn profile is where I maintain my professional network and share
-            career milestones. You'll find my education history, skills endorsements,
-            and connections within the tech and design communities.
-          </p>
-          <span class="social-arrow"><i class="ph ph-arrow-up-right"></i></span>
-        </a>
-
-        <a href="https://github.com/JoaoNicastro" class="social-link glass-card card-hover" target="_blank" rel="noopener">
-          <i class="ph ph-github-logo social-icon"></i>
-          <h3>GitHub</h3>
-          <p>
-            GitHub is where all my code lives. You'll find repositories for class
-            projects, personal experiments, and collaborative work. My commit history
-            reflects my growth as a developer.
-          </p>
-          <span class="social-arrow"><i class="ph ph-arrow-up-right"></i></span>
-        </a>
-
-        <a href="#" class="social-link glass-card card-hover" target="_blank" rel="noopener">
-          <!-- TODO: Replace with your 3rd social platform URL and icon -->
-          <i class="ph ph-user-circle social-icon"></i>
-          <h3><!-- TODO: Replace -->[Your 3rd platform]</h3>
-          <p>
-            <!-- TODO: Write at least 25 words explaining how this platform supports
-                 your personal brand and what visitors will find there. -->
-            [Write at least 25 words about how this platform supports your personal brand
-            and what visitors will find there.]
-          </p>
-          <span class="social-arrow"><i class="ph ph-arrow-up-right"></i></span>
-        </a>
-
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-      <p class="footer-brand"><span class="brand-accent">&lt;</span>JNS<span class="brand-accent"> /&gt;</span></p>
-      <p>&copy; <span id="year"></span> João Nicastro Silveira</p>
-      <p class="footer-note">Built for CSCI Professional Development</p>
+<!-- ============================================================ ABOUT ============================================================ -->
+<section id="about" class="about">
+  <h2 class="about__h" id="aboutH"></h2>
+  <div class="about__grid">
+    <div class="about__body">
+      <p data-i18n="about.p1"><b>What I do.</b> Full-stack web — React, TypeScript, Java, Python. I build the front-end people see, the API behind it, and the admin tooling that keeps it running.</p>
+      <p data-i18n="about.p2"><b>How I work.</b> Accessibility is a baseline, not a feature. I write semantic HTML, test with a keyboard, and ship designs that hold up at 200% zoom.</p>
+      <p data-i18n="about.p3"><b>Outside the editor.</b> Bilingual EN/PT, run analytics on Premier League matches for fun, and read more architecture books than is probably healthy.</p>
     </div>
-  </footer>
+    <div class="specs">
+      <div class="spec"><span class="k">Status</span><span class="v status"><span class="dot"></span><span data-i18n="spec.status">Available</span></span></div>
+      <div class="spec"><span class="k">Based</span><span class="v">Denver, MST</span></div>
+      <div class="spec"><span class="k" data-i18n="spec.studying">Studying</span><span class="v">CS · CU Boulder</span></div>
+      <div class="spec"><span class="k" data-i18n="spec.langs">Languages</span><span class="v">EN · PT</span></div>
+      <div class="spec"><span class="k" data-i18n="spec.stack">Stack</span><span class="v">React · TS · Java · Py</span></div>
+      <div class="spec"><span class="k">Email</span><span class="v"><a href="mailto:jnjojonic@gmail.com">jnjojonic@gmail.com</a></span></div>
+    </div>
+  </div>
+</section>
 
-  <script>
-    // Dynamic year
-    document.getElementById("year").textContent = new Date().getFullYear();
+<!-- ============================================================ CONTACT ============================================================ -->
+<section id="contact" class="contact">
+  <h2 class="contact__h">
+    <span data-i18n="contact.h1">Let's build </span><em data-i18n="contact.h2">something good</em><span>.</span>
+  </h2>
+  <p class="contact__sub" data-i18n="contact.sub">Open to contract work and full-time roles for summer 2026. If you have something in mind, drop me a line.</p>
+  <a class="contact__email" href="mailto:jnjojonic@gmail.com">
+    <span>jnjojonic@gmail.com</span>
+    <span class="arrow">↗</span>
+  </a>
+  <div class="contact__links">
+    <a class="contact__link" href="https://github.com/JoaoNicastro" target="_blank" rel="noopener">github ↗</a>
+    <a class="contact__link" href="https://github.com/JoaoNicastro/HuckleSite" target="_blank" rel="noopener">huckle ↗</a>
+    <a class="contact__link" href="https://joaonicastrosilveira.github.io/ATLS-CSCI-3150/final_project/" target="_blank" rel="noopener">live site ↗</a>
+  </div>
+</section>
 
-    // Mobile nav toggle
-    const btn = document.querySelector('.nav-toggle');
-    const nav = document.querySelector('#nav');
-    btn.addEventListener('click', () => {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', !expanded);
-      nav.classList.toggle('open');
-    });
+<!-- ============================================================ FOOTER ============================================================ -->
+<footer class="footer">
+  <span>© 2026 João Nicastro Silveira</span>
+  <span> · </span>
+  <span class="egg-hint" id="eggHint" title="Try the Konami code: ↑↑↓↓←→←→ B A">find the easter egg ✦</span>
+</footer>
 
-    // Smooth scrolling for nav links + close mobile nav
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-      link.addEventListener('click', e => {
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth' });
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
+<!-- ============================================================ DISCOVERED COUNTER ============================================================ -->
+<div class="discovered" id="discovered" aria-live="polite">
+  <span><span data-i18n="disc.label">Discovered</span> <b id="discCount">0</b>/<b id="discTotal">6</b></span>
+  <div class="discovered__bar"><div class="discovered__fill" id="discFill"></div></div>
+</div>
+
+<!-- ============================================================ MODAL ============================================================ -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal__panel" id="modalPanel"></div>
+</div>
+
+<!-- ============================================================ TOAST ============================================================ -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================ DATA ============================================================
+const PROJECTS = [
+  {
+    id: "huckle", name: "Huckle", year: "2025",
+    glyph: "HK", color: "green", x: 18, y: 28,
+    role: { en: "Solo full-stack", pt: "Full-stack solo" },
+    tagline: { en: "Produce delivery, end-to-end.", pt: "Entrega de hortifruti, ponta a ponta." },
+    stack: ["React 19", "TypeScript", "Vite", "Tailwind 4", "Framer Motion", "Firebase"],
+    body: {
+      en: "Animated marketing site, waitlist capture, and a Firebase-backed admin dashboard the operator actually uses. I rolled my own UI primitives so the brand stays consistent across surfaces.",
+      pt: "Site de marketing animado, captação de waitlist e um painel admin sobre Firebase que o operador realmente usa. Fiz uma UI library própria para manter a marca consistente."
+    },
+    repo: "https://github.com/JoaoNicastro/HuckleSite",
+    live: null
+  },
+  {
+    id: "polymorphia", name: "Polymorphia", year: "2024",
+    glyph: "PL", color: "blue", x: 75, y: 22,
+    role: { en: "Architecture study", pt: "Estudo de arquitetura" },
+    tagline: { en: "How I think about software architecture.", pt: "Como penso arquitetura de software." },
+    stack: ["Java 21", "Spring Boot", "REST", "JUnit"],
+    body: {
+      en: "A turn-based maze game evolved across four iterations to demonstrate Strategy, Decorator, Command, Factory, and Adapter patterns — ending as a stateful REST microservice.",
+      pt: "Um jogo de labirinto por turnos evoluído em quatro iterações para demonstrar os padrões Strategy, Decorator, Command, Factory e Adapter — terminando como microsserviço REST."
+    },
+    repo: "https://github.com/JoaoNicastro",
+    live: null
+  },
+  {
+    id: "ud", name: "Universal Design", year: "2024",
+    glyph: "UD", color: "orange", x: 30, y: 65,
+    role: { en: "WCAG-first build", pt: "Build WCAG-first" },
+    tagline: { en: "Accessibility as a constraint, not a checklist.", pt: "Acessibilidade como restrição, não checklist." },
+    stack: ["Semantic HTML5", "ARIA", "CSS Grid", "Keyboard nav"],
+    body: {
+      en: "Educational site about universal design where the form practices what the content preaches: every interaction keyboard-reachable, every landmark named, every focus state visible without being loud.",
+      pt: "Site educacional sobre design universal onde a forma pratica o que o conteúdo prega: tudo acessível via teclado, landmarks nomeadas, focos visíveis sem berrantes."
+    },
+    repo: "https://github.com/JoaoNicastro",
+    live: "https://joaonicastrosilveira.github.io/ATLS-CSCI-3150/final_project/"
+  },
+  {
+    id: "epl", name: "EPL Prediction", year: "2024",
+    glyph: "EPL", color: "pink", x: 82, y: 60,
+    role: { en: "Applied analytics", pt: "Análise aplicada" },
+    tagline: { en: "Poisson regression vs. 14 seasons of football.", pt: "Regressão de Poisson contra 14 temporadas de futebol." },
+    stack: ["Python", "NumPy", "Pandas", "Jupyter"],
+    body: {
+      en: "Fit team-strength coefficients on 14 years of EPL data, then ran Monte Carlo simulations to project full-table outcomes. The interesting part wasn't the math — it was the data hygiene.",
+      pt: "Ajustei coeficientes de força de time em 14 anos de Premier League e rodei simulações de Monte Carlo. A parte interessante não foi a matemática — foi a higiene dos dados."
+    },
+    repo: "https://github.com/JoaoNicastro",
+    live: null
+  },
+  {
+    id: "arch", name: "Archetype Match", year: "2024",
+    glyph: "AM", color: "green", x: 50, y: 45,
+    role: { en: "Data modeling · i18n", pt: "Modelagem · i18n" },
+    tagline: { en: "Candidate ↔ job, scored honestly.", pt: "Candidato ↔ vaga, com pontuação honesta." },
+    stack: ["Python", "Weighted scoring", "Bilingual fixtures"],
+    body: {
+      en: "Scoring engine matching candidates to job archetypes across weighted skill pillars, with EN/PT test fixtures from the same source of truth. Taught me i18n is a data problem before a string problem.",
+      pt: "Mecanismo de pontuação que casa candidatos a arquétipos de vaga em pilares ponderados, com fixtures EN/PT da mesma fonte. Me ensinou que i18n é problema de dados antes de strings."
+    },
+    repo: "https://github.com/JoaoNicastro",
+    live: null
+  },
+  {
+    id: "this", name: "This Site", year: "2026",
+    glyph: "✦", color: "blue", x: 60, y: 80,
+    role: { en: "Meta", pt: "Meta" },
+    tagline: { en: "View source.", pt: "Ver código-fonte." },
+    stack: ["Vanilla JS", "Canvas", "CSS custom props", "No build step"],
+    body: {
+      en: "A constellation of projects in one HTML file. Animated starfield on canvas, draggable stage, scroll-revealed text, and a tiny easter egg. Built without a framework on purpose.",
+      pt: "Uma constelação de projetos em um único arquivo HTML. Starfield animado em canvas, palco arrastável, texto revelado no scroll e um easter egg. Sem framework, de propósito."
+    },
+    repo: "https://github.com/JoaoNicastro",
+    live: null
+  }
+];
+
+const I18N = {
+  en: {
+    "hero.eyebrow": "Available for contract work · Q2 2026",
+    "hero.title": "Hi, I'm @João.\nI build digital things, with care.",
+    "hero.sub": "Full-stack developer in Denver. I build accessible, design-forward web apps with React, TypeScript, Java, and Python.",
+    "hero.cta1": "Explore projects", "hero.cta2": "Get in touch",
+    "hero.scroll": "scroll",
+    "const.label": "// 6 PROJECTS · CLICK TO EXPLORE",
+    "const.h1": "Each project is a ", "const.h2": "node", "const.h3": " in the constellation.",
+    "const.hint": "Hover · click · drag the canvas to pan",
+    "about.title": "I write code that\n@feels @calm to use.",
+    "about.p1": "<b>What I do.</b> Full-stack web — React, TypeScript, Java, Python. I build the front-end people see, the API behind it, and the admin tooling that keeps it running.",
+    "about.p2": "<b>How I work.</b> Accessibility is a baseline, not a feature. I write semantic HTML, test with a keyboard, and ship designs that hold up at 200% zoom.",
+    "about.p3": "<b>Outside the editor.</b> Bilingual EN/PT, run analytics on Premier League matches for fun, and read more architecture books than is probably healthy.",
+    "spec.status": "Available", "spec.studying": "Studying", "spec.langs": "Languages", "spec.stack": "Stack",
+    "contact.h1": "Let's build ", "contact.h2": "something good",
+    "contact.sub": "Open to contract work and full-time roles for summer 2026. If you have something in mind, drop me a line.",
+    "disc.label": "Discovered",
+    "modal.live": "View live ↗", "modal.repo": "View repo ↗",
+    "egg.found": "✦ You found the easter egg. Konami unlocks turbo mode."
+  },
+  pt: {
+    "hero.eyebrow": "Disponível para freelas · 2º Tri 2026",
+    "hero.title": "Olá, sou o @João.\nConstruo coisas digitais, com cuidado.",
+    "hero.sub": "Desenvolvedor full-stack em Denver. Construo apps web acessíveis com React, TypeScript, Java e Python.",
+    "hero.cta1": "Explorar projetos", "hero.cta2": "Entrar em contato",
+    "hero.scroll": "scroll",
+    "const.label": "// 6 PROJETOS · CLIQUE PARA EXPLORAR",
+    "const.h1": "Cada projeto é um ", "const.h2": "nó", "const.h3": " na constelação.",
+    "const.hint": "Hover · clique · arraste o canvas para mover",
+    "about.title": "Escrevo código que\né @calmo de usar.",
+    "about.p1": "<b>O que faço.</b> Web full-stack — React, TypeScript, Java, Python. Faço o front, a API e o admin que mantém tudo rodando.",
+    "about.p2": "<b>Como trabalho.</b> Acessibilidade é base, não feature. HTML semântico, testes com teclado, designs que aguentam zoom 200%.",
+    "about.p3": "<b>Fora do editor.</b> Bilíngue PT/EN, rodo análises do Campeonato Inglês por diversão e leio mais livros de arquitetura do que devia.",
+    "spec.status": "Disponível", "spec.studying": "Estudo", "spec.langs": "Idiomas", "spec.stack": "Stack",
+    "contact.h1": "Vamos construir ", "contact.h2": "algo bom",
+    "contact.sub": "Aberto a freelas e vagas full-time para o verão de 2026. Se tem algo em mente, me chama.",
+    "disc.label": "Descobertos",
+    "modal.live": "Ver ao vivo ↗", "modal.repo": "Ver repo ↗",
+    "egg.found": "✦ Você achou o easter egg. Konami libera turbo."
+  }
+};
+
+// ============================================================ APP ============================================================
+(() => {
+  const lang = { v: localStorage.getItem('jns.lang') || 'en' };
+  const discovered = new Set(JSON.parse(localStorage.getItem('jns.disc') || '[]'));
+
+  // ---------- STARFIELD ----------
+  const cv = document.getElementById('stars');
+  const ctx = cv.getContext('2d');
+  let stars = [];
+  let dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let turbo = 0; // multiplier from easter egg
+
+  function resizeStars() {
+    cv.width  = innerWidth  * dpr;
+    cv.height = innerHeight * dpr;
+    cv.style.width = innerWidth + 'px';
+    cv.style.height = innerHeight + 'px';
+    const count = Math.floor(innerWidth * innerHeight / 6500);
+    stars = [];
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * cv.width,
+        y: Math.random() * cv.height,
+        z: Math.random() * 1 + 0.2,  // depth (0.2 - 1.2)
+        r: Math.random() * 1.4 + 0.3,
+        tw: Math.random() * Math.PI * 2  // twinkle phase
+      });
+    }
+  }
+  let scrollY = 0;
+  addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
+  addEventListener('resize', resizeStars);
+
+  function tick(t) {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    const speed = 0.4 + turbo * 4;
+    for (const s of stars) {
+      // parallax + drift
+      s.y += s.z * speed;
+      if (s.y > cv.height) s.y = -2;
+      const yp = s.y - (scrollY * dpr * s.z * 0.3);
+      const wrappedY = ((yp % cv.height) + cv.height) % cv.height;
+      const tw = 0.5 + 0.5 * Math.sin(t * 0.001 + s.tw);
+      const alpha = 0.3 + 0.7 * tw * s.z;
+      ctx.fillStyle = `rgba(${turbo > 0 ? '180,255,210' : '230,232,235'},${alpha})`;
+      ctx.beginPath();
+      ctx.arc(s.x, wrappedY, s.r * s.z * dpr, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+  resizeStars();
+  requestAnimationFrame(tick);
+
+  // ---------- HERO TITLE (word-by-word reveal, with i18n) ----------
+  function renderHeroTitle() {
+    const text = I18N[lang.v]['hero.title'];
+    const h1 = document.getElementById('heroH1');
+    h1.innerHTML = '';
+    let globalIdx = 0;
+    text.split('\n').forEach((line, li) => {
+      const lineEl = document.createElement('span');
+      lineEl.style.display = 'block';
+      const words = line.split(' ');
+      words.forEach((w, wi) => {
+        const span = document.createElement('span');
+        span.className = 'word';
+        if (w.startsWith('@')) {
+          span.classList.add('accent');
+          span.textContent = w.slice(1);
+        } else {
+          span.textContent = w;
         }
+        span.style.animationDelay = (globalIdx * 80) + 'ms';
+        globalIdx++;
+        lineEl.appendChild(span);
+        if (wi < words.length - 1) lineEl.appendChild(document.createTextNode(' '));
       });
+      h1.appendChild(lineEl);
     });
+  }
 
-    // Scroll-driven fade-in
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+  function renderAboutTitle() {
+    const text = I18N[lang.v]['about.title'];
+    const h = document.getElementById('aboutH');
+    h.innerHTML = '';
+    let gi = 0;
+    text.split('\n').forEach((line) => {
+      const lineEl = document.createElement('span');
+      lineEl.style.display = 'block';
+      const words = line.split(' ');
+      words.forEach((w, wi) => {
+        const wrap = document.createElement('span');
+        wrap.className = 'word';
+        wrap.style.setProperty('--i', gi);
+        gi++;
+        if (w.startsWith('@')) {
+          const em = document.createElement('em');
+          em.textContent = w.slice(1);
+          wrap.appendChild(em);
+        } else {
+          wrap.textContent = w;
         }
+        lineEl.appendChild(wrap);
+        if (wi < words.length - 1) lineEl.appendChild(document.createTextNode(' '));
       });
-    }, { threshold: 0.08 });
-
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-    // Active nav highlight on scroll
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('nav a');
-
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(section => {
-        const top = section.offsetTop - 120;
-        if (scrollY >= top) current = section.getAttribute('id');
-      });
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) {
-          link.classList.add('active');
-        }
-      });
+      h.appendChild(lineEl);
     });
-  </script>
+  }
 
+  // ---------- CONSTELLATION NODES ----------
+  const stage = document.getElementById('stage');
+  const stageInner = document.getElementById('stageInner');
+  const stageLines = document.getElementById('stageLines');
+
+  function renderNodes() {
+    stageInner.innerHTML = '';
+    stageLines.innerHTML = '';
+    PROJECTS.forEach((p, i) => {
+      const n = document.createElement('button');
+      n.className = `node node--${p.color}`;
+      n.dataset.id = p.id;
+      n.style.left = p.x + '%';
+      n.style.top  = p.y + '%';
+      n.setAttribute('aria-label', `Open ${p.name}`);
+      n.innerHTML = `
+        <div class="node__core">
+          <div class="node__ring" aria-hidden="true"></div>
+          <span>${p.glyph}</span>
+        </div>
+        <div class="node__label">${p.name} <span class="yr">${p.year}</span></div>
+      `;
+      n.addEventListener('click', () => openModal(p));
+      stageInner.appendChild(n);
+    });
+    // Lines: connect each to nearest 2 neighbors
+    const ns = PROJECTS;
+    for (let i = 0; i < ns.length; i++) {
+      const next = ns[(i + 1) % ns.length];
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', ns[i].x + '%');
+      line.setAttribute('y1', ns[i].y + '%');
+      line.setAttribute('x2', next.x + '%');
+      line.setAttribute('y2', next.y + '%');
+      stageLines.appendChild(line);
+    }
+  }
+
+  // ---------- DRAG TO PAN STAGE ----------
+  let panX = 0, panY = 0, isDragging = false, startX = 0, startY = 0;
+  function applyPan() {
+    stageInner.style.transform = `translate(${panX}px, ${panY}px)`;
+    stageLines.style.transform = `translate(${panX}px, ${panY}px)`;
+  }
+  stage.addEventListener('mousedown', e => {
+    if (e.target.closest('.node')) return;
+    isDragging = true; startX = e.clientX - panX; startY = e.clientY - panY;
+    stage.style.cursor = 'grabbing';
+  });
+  addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    panX = e.clientX - startX; panY = e.clientY - startY;
+    // clamp
+    panX = Math.max(-200, Math.min(200, panX));
+    panY = Math.max(-150, Math.min(150, panY));
+    applyPan();
+  });
+  addEventListener('mouseup', () => { isDragging = false; stage.style.cursor = ''; });
+  // Touch
+  stage.addEventListener('touchstart', e => {
+    if (e.target.closest('.node')) return;
+    const t = e.touches[0];
+    isDragging = true; startX = t.clientX - panX; startY = t.clientY - panY;
+  }, { passive: true });
+  stage.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    const t = e.touches[0];
+    panX = Math.max(-200, Math.min(200, t.clientX - startX));
+    panY = Math.max(-150, Math.min(150, t.clientY - startY));
+    applyPan();
+  }, { passive: true });
+  stage.addEventListener('touchend', () => { isDragging = false; });
+
+  // ---------- MODAL ----------
+  const modal = document.getElementById('modal');
+  const modalPanel = document.getElementById('modalPanel');
+  function openModal(p) {
+    discovered.add(p.id);
+    localStorage.setItem('jns.disc', JSON.stringify([...discovered]));
+    updateDiscovered();
+
+    modalPanel.innerHTML = `
+      <div class="modal__hero">
+        <div class="glyph">${p.glyph}</div>
+        <button class="modal__close" id="modalClose" aria-label="Close">×</button>
+      </div>
+      <div class="modal__body">
+        <div class="modal__year">${p.year} · ${p.role[lang.v]}</div>
+        <div class="modal__head">
+          <h3 class="modal__name">${p.name}</h3>
+        </div>
+        <p class="modal__tag">${p.tagline[lang.v]}</p>
+        <p>${p.body[lang.v]}</p>
+        <div class="modal__stack">${p.stack.map(s => `<span class="tag">${s}</span>`).join('')}</div>
+        <div class="modal__actions">
+          ${p.live ? `<a class="btn btn--solid" href="${p.live}" target="_blank" rel="noopener"><span>${I18N[lang.v]['modal.live']}</span></a>` : ''}
+          <a class="btn" href="${p.repo}" target="_blank" rel="noopener"><span>${I18N[lang.v]['modal.repo']}</span></a>
+        </div>
+      </div>
+    `;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+  }
+  function closeModal() {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // ---------- DISCOVERED COUNTER ----------
+  function updateDiscovered() {
+    const total = PROJECTS.length;
+    const count = discovered.size;
+    document.getElementById('discCount').textContent = count;
+    document.getElementById('discTotal').textContent = total;
+    document.getElementById('discFill').style.width = (count / total * 100) + '%';
+    const wrap = document.getElementById('discovered');
+    wrap.classList.toggle('is-complete', count === total);
+    if (count === total && !localStorage.getItem('jns.complete')) {
+      localStorage.setItem('jns.complete', '1');
+      toast(lang.v === 'pt' ? '✦ Você descobriu todos os projetos!' : '✦ You discovered all projects!');
+    }
+  }
+  updateDiscovered();
+
+  // ---------- TOAST ----------
+  let toastTimer;
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('is-show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('is-show'), 3500);
+  }
+
+  // ---------- I18N ----------
+  function applyI18n() {
+    document.documentElement.lang = lang.v;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const k = el.dataset.i18n;
+      if (I18N[lang.v][k] != null) el.innerHTML = I18N[lang.v][k];
+    });
+    document.getElementById('langBtn').textContent = lang.v.toUpperCase();
+    renderHeroTitle();
+    renderAboutTitle();
+  }
+  document.getElementById('langBtn').addEventListener('click', () => {
+    lang.v = lang.v === 'en' ? 'pt' : 'en';
+    localStorage.setItem('jns.lang', lang.v);
+    applyI18n();
+  });
+
+  // ---------- REVEAL ON SCROLL ----------
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('is-in'); });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+  document.querySelectorAll('.about, .contact, .constellation__intro').forEach(el => io.observe(el));
+
+  // ---------- KONAMI EASTER EGG ----------
+  const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let kIdx = 0;
+  addEventListener('keydown', e => {
+    const want = konami[kIdx];
+    if (e.key.toLowerCase() === want.toLowerCase()) {
+      kIdx++;
+      if (kIdx === konami.length) {
+        kIdx = 0;
+        turbo = 1;
+        toast(I18N[lang.v]['egg.found']);
+        setTimeout(() => { turbo = 0; }, 8000);
+      }
+    } else {
+      kIdx = 0;
+    }
+  });
+  document.getElementById('eggHint').addEventListener('click', () => {
+    toast(lang.v === 'pt' ? 'Dica: ↑ ↑ ↓ ↓ ← → ← → B A' : 'Hint: ↑ ↑ ↓ ↓ ← → ← → B A');
+  });
+
+  // ---------- INIT ----------
+  renderNodes();
+  applyI18n();
+})();
+</script>
 </body>
 </html>
